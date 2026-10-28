@@ -336,4 +336,100 @@
 
 </div>
 </body>
+
+
+<!-- Mensagem que aparece ao interagir com o site -->
+<div class="mensagem-secreta" id="mensagemSecreta"
+     role="status" aria-live="polite"></div>
+
+<script>
+    const mensagem = document.getElementById("mensagemSecreta");
+    let temporizadorMensagem;
+
+    function mostrarMensagem(texto) {
+        mensagem.textContent = texto;
+        mensagem.classList.add("visivel");
+
+        clearTimeout(temporizadorMensagem);
+
+        temporizadorMensagem = setTimeout(() => {
+            mensagem.classList.remove("visivel");
+        }, 2800);
+    }
+
+    // O Sol e a Lua guardam pequenas mensagens.
+    const sol = document.querySelector(".astro-sol");
+    const lua = document.querySelector(".astro-lua");
+
+    sol.setAttribute("role", "button");
+    sol.setAttribute("tabindex", "0");
+    sol.setAttribute("aria-label", "Descobrir a mensagem do Sol");
+
+    lua.setAttribute("role", "button");
+    lua.setAttribute("tabindex", "0");
+    lua.setAttribute("aria-label", "Descobrir a mensagem da Lua");
+
+    function ativarAstro(astro, texto) {
+        astro.classList.toggle("astro-ativo");
+        mostrarMensagem(texto);
+    }
+
+    sol.addEventListener("click", () => {
+        ativarAstro(sol, "Você é o meu pedacinho de sol. ☼");
+    });
+
+    lua.addEventListener("click", () => {
+        ativarAstro(lua, "Até na noite mais escura, eu encontro você. ☾");
+    });
+
+    [sol, lua].forEach((astro) => {
+        astro.addEventListener("keydown", (evento) => {
+            if (evento.key === "Enter" || evento.key === " ") {
+                evento.preventDefault();
+                astro.click();
+            }
+        });
+    });
+
+    // Brilhinhos ao clicar em elementos interativos.
+    document.addEventListener("click", (evento) => {
+        const alvo = evento.target.closest(
+            "a, button, .astro-sol, .astro-lua, .detalhe, .ornamento"
+        );
+
+        if (!alvo) return;
+
+        const brilho = document.createElement("span");
+        brilho.className = "brilho-clique";
+        brilho.textContent = ["✧", "✦", "❦", "⋆"][
+            Math.floor(Math.random() * 4)
+        ];
+
+        brilho.style.left = evento.clientX + "px";
+        brilho.style.top = evento.clientY + "px";
+
+        document.body.appendChild(brilho);
+        setTimeout(() => brilho.remove(), 850);
+    });
+
+    // As fotografias recebem um brilho ao serem clicadas.
+    document.querySelectorAll(".foto-card").forEach((foto) => {
+        const link = foto.querySelector(".link-foto");
+
+        if (!link) return;
+
+        link.addEventListener("click", () => {
+            foto.classList.add("foto-selecionada");
+        });
+    });
+
+    // Pequena surpresa ao clicar no símbolo do cabeçalho.
+    document.querySelector(".assinatura-simbolo")
+        ?.addEventListener("click", () => {
+            mostrarMensagem("Dois mundos, um universo feito de nós. ♡");
+        });
+</script>
+</body>
+</html>
+
 </html>

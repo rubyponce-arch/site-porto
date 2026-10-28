@@ -785,3 +785,170 @@ img {
         transition-duration: .01ms !important;
     }
 }
+
+
+/* =====================================
+   INTERAÇÕES MÁGICAS — SOL E LUA
+===================================== */
+
+/* Brilho delicado nos elementos clicáveis */
+a,
+button,
+.astro-sol,
+.astro-lua,
+.detalhe,
+.ornamento,
+.divisor-ornamental > span {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+.astro-sol,
+.astro-lua {
+    cursor: pointer;
+}
+
+/* O Sol pulsa quando recebe o mouse */
+.astro-sol {
+    transition: transform .35s ease, filter .35s ease;
+}
+
+.astro-sol:hover,
+.astro-sol:focus-visible {
+    transform: rotate(12deg) scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(228, 181, 162, .75));
+}
+
+/* A Lua ganha um brilho prateado-esverdeado */
+.astro-lua {
+    transition: transform .35s ease, filter .35s ease;
+}
+
+.astro-lua:hover,
+.astro-lua:focus-visible {
+    transform: rotate(-12deg) scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(182, 201, 168, .75));
+}
+
+/* Efeito de clique nos astros */
+.astro-sol.astro-ativo,
+.astro-lua.astro-ativo {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 18px var(--dourado));
+}
+
+/* Botões com resposta ao toque */
+.botao-principal,
+.botao-memoria,
+.voltar-topo {
+    transition: transform .25s ease, color .25s ease,
+                background .25s ease, box-shadow .25s ease;
+}
+
+.botao-principal:hover,
+.botao-memoria:hover {
+    box-shadow: 0 0 18px rgba(185, 160, 113, .16);
+}
+
+.botao-principal:active,
+.botao-memoria:active {
+    transform: scale(.97);
+}
+
+/* As fotos parecem pequenos objetos encantados */
+.foto-card {
+    transition: transform .3s ease, border-color .3s ease,
+                box-shadow .3s ease;
+}
+
+.foto-card:active {
+    transform: scale(.98);
+}
+
+.foto-card.foto-selecionada {
+    border-color: var(--verde-claro);
+    box-shadow: 0 0 22px rgba(145, 169, 138, .2);
+}
+
+/* Pequenos brilhos que aparecem ao clicar */
+.brilho-clique {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    color: var(--dourado);
+    font-size: 18px;
+    animation: brilho-subir .8s ease-out forwards;
+}
+
+@keyframes brilho-subir {
+    0% {
+        opacity: 0;
+        transform: translateY(8px) scale(.5) rotate(0deg);
+    }
+    25% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-35px) scale(1.3) rotate(35deg);
+    }
+}
+
+/* Uma mensagem secreta aparece perto do rodapé */
+.mensagem-secreta {
+    position: fixed;
+    z-index: 9998;
+    left: 50%;
+    bottom: 28px;
+    width: min(88%, 380px);
+    padding: 16px 22px;
+    border: 1px solid var(--dourado);
+    background: rgba(27, 18, 23, .97);
+    color: var(--texto);
+    text-align: center;
+    font-family: var(--titulo);
+    font-style: italic;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, .35);
+    opacity: 0;
+    transform: translate(-50%, 15px);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+.mensagem-secreta.visivel {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* A carta reage suavemente ao passar o mouse */
+.carta {
+    transition: border-color .35s ease, box-shadow .35s ease;
+}
+
+.carta:hover {
+    border-color: rgba(185, 160, 113, .65);
+    box-shadow: 0 0 28px rgba(118, 38, 58, .1);
+}
+
+/* Destaque acessível para navegação por teclado */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--dourado);
+    outline-offset: 5px;
+}
+
+/* Respeita quem prefere menos animações */
+@media (prefers-reduced-motion: reduce) {
+    .brilho-clique {
+        display: none;
+    }
+
+    .astro-sol,
+    .astro-lua,
+    .foto-card,
+    .carta,
+    .mensagem-secreta {
+        transition: none;
+    }
+}
